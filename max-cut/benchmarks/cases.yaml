@@ -28,3 +28,35 @@ cases:
     target: fake:fez@1.6   # ibm_fez noise model at 1.6x (what the chip measured vs its own model)
     seed: 1
     expect: {max_gap: 0.0, min_fidelity: 0.97, max_two_qubit_gates: 40}
+
+# Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
+# device when this workflow's developer asks, quoted first and paid from their credits; the results
+# join the track record. At most three.
+hardware_cases:
+- name: hardware-ring-6
+  input_file: examples/ring_6.json
+  seed: 1
+  target: ibm:ibm_fez
+  expect: {max_gap: 0.0, min_fidelity: 0.97, max_two_qubit_gates: 40}
+- name: hardware-petersen-10
+  input:
+    nodes: [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9]
+    edges:
+    - [p0, p1, 1]
+    - [p1, p2, 2]
+    - [p2, p3, 1]
+    - [p3, p4, 3]
+    - [p4, p0, 1]
+    - [p0, p5, 2]
+    - [p1, p6, 1]
+    - [p2, p7, 1]
+    - [p3, p8, 2]
+    - [p4, p9, 1]
+    - [p5, p7, 1]
+    - [p7, p9, 2]
+    - [p9, p6, 1]
+    - [p6, p8, 1]
+    - [p8, p5, 2]
+  seed: 3
+  target: ibm:ibm_fez
+  expect: {max_gap: 0.0}

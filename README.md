@@ -66,3 +66,7 @@ part of any workflow snapshot. The data files they write record how they were ma
   values so the reader can judge the approximation.
 - Benchmarks with small test sets (the QML cases) carry wide confidence intervals; read the interval,
   not just the accuracy.
+
+## Hardware cases
+
+Each workflow lists its real-device cases under `hardware_cases:` in `benchmarks/cases.yaml` (target `ibm:ibm_fez`). `qsolve test` and validation do not run them; on the platform the workflow's developer runs them from the workflow page, quoted first and paid from their own credits, and the results join the track record.

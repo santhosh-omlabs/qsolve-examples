@@ -1,6 +1,6 @@
 schema_version: 1
 name: quantum-kernel-classifier
-version: 1.0.1
+version: 1.0.2
 family: quantum_ml
 summary: Binary classification with a quantum-kernel SVM, tuned and compared against a cross-validated classical RBF-SVM on a held-out test set
 license: Apache-2.0

@@ -36,3 +36,14 @@ cases:
     seed: 1
     # binding energy of two systems: the error bar is the sum of both (about 3 mHa)
     expect: {max_abs_error: 0.012, min_fidelity: 0.99, min_postselection: 0.9}
+
+# Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
+# device when this workflow's developer asks, quoted first and paid from their credits; the results
+# join the track record. At most three.
+hardware_cases:
+- name: hardware-li-water
+  input_file: examples/li_h2o.json
+  params: {shots: 300}
+  seed: 1
+  target: ibm:ibm_fez
+  expect: {max_abs_error: 0.012, min_fidelity: 0.99, min_postselection: 0.9}

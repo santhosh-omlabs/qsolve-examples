@@ -1,6 +1,6 @@
 schema_version: 1
 name: interaction-energy
-version: 1.0.1
+version: 1.0.2
 family: electronic_structure
 summary: Binding, solvation, adsorption or reaction energy for any set of species - a signed combination of VQE energies (for example Li+ with a solvent molecule for battery electrolytes)
 license: Apache-2.0

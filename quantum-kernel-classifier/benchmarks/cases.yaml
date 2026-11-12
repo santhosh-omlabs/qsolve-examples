@@ -26,3 +26,15 @@ cases:
     target: fake:fez@1.6
     seed: 1
     expect: {max_abs_error: 0.1, min_fidelity: 0.95}
+
+# Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
+# device when this workflow's developer asks, quoted first and paid from their credits; the results
+# join the track record. At most three.
+hardware_cases:
+- name: hardware-breast-cancer-small
+  input:
+    dataset: {kind: breast_cancer, n_samples: 24, features: 4, seed: 0}
+  params: {shots: 300}
+  seed: 1
+  target: ibm:ibm_fez
+  expect: {max_abs_error: 0.1, min_fidelity: 0.95}

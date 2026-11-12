@@ -1,6 +1,6 @@
 schema_version: 1
 name: portfolio-optimization
-version: 1.0.1
+version: 1.0.2
 family: qubo_optimization
 summary: Select k assets that maximize return for a given risk aversion (cardinality-constrained Markowitz via QAOA)
 license: Apache-2.0

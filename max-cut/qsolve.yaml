@@ -1,6 +1,6 @@
 schema_version: 1
 name: max-cut
-version: 1.0.1
+version: 1.0.2
 family: qubo_optimization
 summary: Split a weighted graph into two groups to maximize the total weight of edges between them (network partitioning, clustering, circuit layout)
 license: Apache-2.0

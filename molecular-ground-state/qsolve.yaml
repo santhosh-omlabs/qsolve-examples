@@ -1,6 +1,6 @@
 schema_version: 1
 name: molecular-ground-state
-version: 1.0.1
+version: 1.0.2
 family: electronic_structure
 summary: Ground-state energy of any closed-shell molecule or ion with VQE (UCCSD) in a chosen active space, compared with Hartree-Fock, exact active-space and CCSD(T) references
 license: Apache-2.0

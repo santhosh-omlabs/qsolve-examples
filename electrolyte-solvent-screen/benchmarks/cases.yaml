@@ -19,3 +19,16 @@ cases:
     params: {shots: 20000}
     seed: 1
     expect: {max_abs_error: 0.02, min_fidelity: 0.97, min_postselection: 0.9}
+
+# Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
+# device when this workflow's developer asks, quoted first and paid from their credits; the results
+# join the track record. At most three.
+hardware_cases:
+- name: hardware-water-only
+  input:
+    basis: sto-3g
+    solvents: [water]
+  params: {shots: 1000}
+  seed: 1
+  target: ibm:ibm_fez
+  expect: {max_abs_error: 0.02, min_fidelity: 0.97, min_postselection: 0.9}

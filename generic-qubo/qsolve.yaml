@@ -1,6 +1,6 @@
 schema_version: 1
 name: generic-qubo
-version: 1.0.1
+version: 1.0.2
 family: qubo_optimization
 summary: Solve any QUBO you bring - minimize x'Qx over binary variables, with an optional "choose exactly k" constraint
 license: Apache-2.0

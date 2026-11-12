@@ -39,3 +39,19 @@ cases:
     params: {layers: 1}
     seed: 1
     expect: {max_gap: 0.0, min_fidelity: 0.95, max_two_qubit_gates: 90}
+
+# Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
+# device when this workflow's developer asks, quoted first and paid from their credits; the results
+# join the track record. At most three.
+hardware_cases:
+- name: hardware-5-assets-pick-2
+  input_file: benchmarks/inputs/noise_5_assets_pick_2.json
+  params: {layers: 1}
+  seed: 1
+  target: ibm:ibm_fez
+  expect: {max_gap: 0.0, min_fidelity: 0.95, max_two_qubit_gates: 90}
+- name: hardware-tech-defensives-8
+  input_file: examples/input_small.json
+  seed: 7
+  target: ibm:ibm_fez
+  expect: {max_gap: 0.0}
