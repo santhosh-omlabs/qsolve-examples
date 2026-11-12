@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "anyOf": [
+    {"title": "Built-in solvents", "required": ["solvents"]},
+    {"title": "My own molecules", "required": ["custom_solvents"]}
+  ],
+  "properties": {
+    "solvents": {
+      "title": "Solvents to compare",
+      "description": "Each is a B3LYP/6-31G* optimised molecule and Li+ complex from the built-in library",
+      "type": "array", "uniqueItems": true, "minItems": 1, "maxItems": 7,
+      "items": {"type": "string", "enum": ["EC", "FEC", "DMC", "DME", "THF", "ACN", "water"]},
+      "default": ["EC", "DMC", "DME", "ACN", "water"],
+      "x-ui": {"option_labels": {
+        "EC": "Ethylene carbonate (EC)",
+        "FEC": "Fluoroethylene carbonate (FEC)",
+        "DMC": "Dimethyl carbonate (DMC)",
+        "DME": "Dimethoxyethane (DME)",
+        "THF": "Tetrahydrofuran (THF)",
+        "ACN": "Acetonitrile (ACN)",
+        "water": "Water"
+      }}
+    },
+    "custom_solvents": {
+      "title": "Your own solvents",
+      "description": "Add molecules not in the library, with your own optimised geometries",
+      "type": "array", "maxItems": 4,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "solvent_xyz", "complex_xyz"],
+        "properties": {
+          "name": {"title": "Short name", "description": "Letters, digits, dash or underscore", "type": "string", "minLength": 1, "maxLength": 24, "examples": ["PC", "DMSO"]},
+          "title": {"title": "Full name", "type": "string", "maxLength": 60},
+          "solvent_xyz": {
+            "title": "Solvent geometry", "description": "One atom per line: symbol x y z, in Ångström",
+            "type": "string", "maxLength": 4000, "x-ui": {"widget": "code"}
+          },
+          "complex_xyz": {
+            "title": "Li+ complex geometry", "description": "The solvent with one Li atom bound to it (charge +1 is applied)",
+            "type": "string", "maxLength": 4000, "x-ui": {"widget": "code"}
+          }
+        }
+      }
+    },
+    "basis": {
+      "title": "Basis set",
+      "description": "6-31G* includes the polarisation that ion binding needs; STO-3G is a fast preview",
+      "type": "string", "enum": ["6-31g*", "6-31g", "sto-3g"], "default": "6-31g*",
+      "x-ui": {"option_labels": {"6-31g*": "6-31G*", "6-31g": "6-31G", "sto-3g": "STO-3G"}}
+    },
+    "active_space": {
+      "title": "Active space",
+      "description": "Electrons and orbitals at the binding site (the atoms bound to Li) that VQE treats exactly, chosen the same way in each complex and its free solvent. Qubits = 2 × orbitals",
+      "type": "object", "additionalProperties": false, "required": ["n_electrons", "n_orbitals"],
+      "default": {"n_electrons": 4, "n_orbitals": 4},
+      "x-ui": {"advanced": true},
+      "properties": {
+        "n_electrons": {"title": "Electrons", "type": "integer", "minimum": 2, "maximum": 8, "multipleOf": 2},
+        "n_orbitals": {"title": "Orbitals", "type": "integer", "minimum": 2, "maximum": 6}
+      }
+    }
+  }
+}

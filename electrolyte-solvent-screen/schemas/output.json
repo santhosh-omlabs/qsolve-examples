@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "ion",
+    "basis",
+    "ranking",
+    "strongest_binder",
+    "ranking_matches_exact",
+    "max_abs_error_kcal_mol",
+    "within_chemical_accuracy"
+  ],
+  "properties": {
+    "label": {
+      "type": "string",
+      "title": "Calculation"
+    },
+    "ion": {
+      "type": "string",
+      "title": "Ion"
+    },
+    "basis": {
+      "type": "string",
+      "title": "Basis set"
+    },
+    "active_space": {
+      "type": "object",
+      "title": "Active space",
+      "properties": {
+        "n_electrons": {
+          "title": "Electrons"
+        },
+        "n_orbitals": {
+          "title": "Orbitals"
+        },
+        "centred_on": {
+          "title": "Centred on"
+        }
+      }
+    },
+    "geometries": {
+      "type": "string",
+      "title": "Geometries"
+    },
+    "ranking": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "rank",
+          "solvent",
+          "binding_energy_kcal_mol",
+          "stderr_kcal_mol",
+          "exact_active_space_kcal_mol",
+          "error_kcal_mol",
+          "hartree_fock_kcal_mol",
+          "active_space_correlation_kcal_mol"
+        ],
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "solvent": {
+            "type": "string",
+            "title": "Solvent"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "binding_energy_kcal_mol": {
+            "type": "number",
+            "title": "Quantum binding energy",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "stderr_kcal_mol": {
+            "type": "number",
+            "title": "Error bar",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "noise_free_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "title": "Noise-free circuit",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "exact_active_space_kcal_mol": {
+            "type": "number",
+            "title": "Exact, same space",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "error_kcal_mol": {
+            "type": "number",
+            "title": "Error vs exact",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "hartree_fock_kcal_mol": {
+            "type": "number",
+            "title": "Hartree-Fock",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "active_space_correlation_kcal_mol": {
+            "type": "number",
+            "title": "Correlation in space",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          },
+          "mp2_full_space_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "title": "MP2",
+            "x-ui": {
+              "unit": "kcal/mol"
+            }
+          }
+        }
+      },
+      "title": "Ranking"
+    },
+    "strongest_binder": {
+      "type": "string",
+      "title": "Strongest binder"
+    },
+    "weakest_binder": {
+      "type": "string",
+      "title": "Weakest binder"
+    },
+    "ranking_matches_exact": {
+      "type": "boolean",
+      "title": "Ranking matches exact"
+    },
+    "unresolved_neighbours": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "title": "Neighbours not resolved"
+    },
+    "max_abs_error_kcal_mol": {
+      "type": "number",
+      "title": "Largest error",
+      "x-ui": {
+        "unit": "kcal/mol"
+      }
+    },
+    "within_chemical_accuracy": {
+      "type": "boolean",
+      "title": "Within chemical accuracy"
+    }
+  }
+}

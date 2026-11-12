@@ -1,0 +1,1 @@
+{"solvents": ["EC", "FEC", "DMC", "DME", "THF"], "basis": "6-31g*", "active_space": {"n_electrons": 4, "n_orbitals": 4}}

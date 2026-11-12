@@ -1,0 +1,41 @@
+cases:
+  - name: us-industries-12-real-data
+    input_file: examples/us_industries_12.json
+    seed: 11
+    expect: {max_gap: 0.0}
+  - name: tech-and-defensives-8
+    input_file: examples/input_small.json
+    seed: 7
+    expect: {max_gap: 0.0}
+  - name: synthetic-10
+    input_file: examples/input_n10_k4.json
+    seed: 1
+    expect: {max_gap: 0.0}
+  - name: synthetic-12
+    input_file: examples/input_n12_k5.json
+    seed: 2
+    expect: {max_gap: 0.05}
+  - name: synthetic-14
+    input_file: examples/input_n14_k6.json
+    seed: 3
+    expect: {max_gap: 0.10}
+  - name: penalty-mode-comparison
+    input_file: examples/input_small.json
+    params: {constraint_mode: penalty}
+    seed: 7
+    expect: {max_gap: 0.0}
+  - name: synthetic-16-choose-6
+    input_file: benchmarks/inputs/synthetic-16-choose-6.json
+    seed: 1
+    expect: {max_gap: 0.0}
+  - name: synthetic-18-choose-7
+    input_file: benchmarks/inputs/synthetic-18-choose-7.json
+    params: {layers: 3}
+    seed: 1
+    expect: {max_gap: 0.0}
+  - name: noise-model-5-assets-pick-2
+    input_file: benchmarks/inputs/noise_5_assets_pick_2.json
+    target: fake:fez@1.6
+    params: {layers: 1}
+    seed: 1
+    expect: {max_gap: 0.0, min_fidelity: 0.95, max_two_qubit_gates: 90}

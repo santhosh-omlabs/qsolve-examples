@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "anyOf": [
+    {"title": "Sample dataset", "required": ["dataset"], "x-ui": {"also": ["test_fraction"]}},
+    {"title": "My data", "required": ["data"], "x-ui": {"also": ["test_fraction"]}},
+    {"title": "My train and test sets", "required": ["train"], "x-ui": {"also": ["test"]}}
+  ],
+  "definitions": {
+    "table": {
+      "type": "object", "additionalProperties": false, "required": ["X", "y"],
+      "x-ui": {"widget": "dataset"},
+      "properties": {
+        "X": {"type": "array", "minItems": 4, "maxItems": 400, "items": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"type": "number"}}},
+        "y": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 1}}
+      }
+    }
+  },
+  "properties": {
+    "dataset": {
+      "title": "Sample dataset",
+      "description": "A real dataset sampled for you, or a standard synthetic shape",
+      "type": "object", "additionalProperties": false, "required": ["kind"],
+      "properties": {
+        "kind": {
+          "title": "Dataset", "type": "string", "enum": ["breast_cancer", "moons", "circles", "xor", "blobs"],
+          "x-ui": {"option_labels": {"breast_cancer": "Breast cancer (real, UCI)", "moons": "Moons", "circles": "Circles", "xor": "XOR", "blobs": "Blobs"}}
+        },
+        "n_samples": {"title": "Points", "description": "Rows sampled (stratified) from a real dataset, or generated", "type": "integer", "minimum": 8, "maximum": 400, "default": 40},
+        "features": {"title": "Features", "description": "Real datasets only: principal components kept (one qubit each)", "type": "integer", "minimum": 2, "maximum": 8, "default": 4},
+        "noise": {"title": "Noise", "description": "Synthetic shapes only", "type": "number", "minimum": 0, "maximum": 1, "default": 0.1},
+        "seed": {"title": "Random seed", "description": "Which sample or which generated points", "type": "integer", "default": 0}
+      }
+    },
+    "data": {
+      "$ref": "#/definitions/table",
+      "title": "Data",
+      "description": "Feature columns and a 0/1 label. Paste from a spreadsheet; it is split into train and test for you"
+    },
+    "train": {"$ref": "#/definitions/table", "title": "Training set", "description": "Feature columns and a 0/1 label"},
+    "test": {"$ref": "#/definitions/table", "title": "Test set", "description": "Same columns as the training set"},
+    "test_fraction": {
+      "title": "Held out for testing",
+      "description": "Share of the data kept aside to measure accuracy",
+      "type": "number", "minimum": 0.1, "maximum": 0.85, "default": 0.33,
+      "x-ui": {"slider": [0.1, 0.85, 0.01], "percent": true}
+    }
+  }
+}

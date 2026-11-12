@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["assets", "num_to_select"],
+  "additionalProperties": false,
+  "anyOf": [
+    {"title": "Expected returns and covariance", "required": ["expected_returns", "covariance"]},
+    {"title": "Historical returns", "required": ["returns_history"]}
+  ],
+  "properties": {
+    "assets": {
+      "title": "Assets",
+      "description": "Tickers or names, one per asset",
+      "type": "array", "minItems": 2, "maxItems": 24,
+      "items": {"type": "string", "minLength": 1, "maxLength": 32}
+    },
+    "num_to_select": {
+      "title": "Assets to pick",
+      "description": "How many assets the portfolio holds",
+      "type": "integer", "minimum": 1,
+      "x-ui": {"max_from": "assets"}
+    },
+    "risk_aversion": {
+      "title": "Risk aversion",
+      "description": "0 chases return; higher values penalise volatility more",
+      "type": "number", "minimum": 0, "default": 0.5,
+      "x-ui": {"slider": [0, 2, 0.05]}
+    },
+    "expected_returns": {
+      "title": "Expected annual returns",
+      "description": "As fractions: 0.12 means 12%",
+      "type": "array", "items": {"type": "number"},
+      "x-ui": {"widget": "vector", "labels_from": "assets"}
+    },
+    "covariance": {
+      "title": "Covariance matrix",
+      "description": "Annualised. Paste it from a spreadsheet; it is kept symmetric",
+      "type": "array", "items": {"type": "array", "items": {"type": "number"}},
+      "x-ui": {"widget": "matrix", "labels_from": "assets", "symmetric": true}
+    },
+    "returns_history": {
+      "title": "Historical returns",
+      "description": "One row per period, one column per asset. Paste from a spreadsheet",
+      "type": "array", "minItems": 3, "items": {"type": "array", "items": {"type": "number"}},
+      "x-ui": {"widget": "matrix", "column_labels_from": "assets", "row_label": "Period"}
+    }
+  }
+}

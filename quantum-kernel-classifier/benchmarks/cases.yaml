@@ -1,0 +1,28 @@
+# Accuracy is compared with a tuned classical RBF-SVM on the same split. Test sets of 200+ points:
+# with fewer, one point moves the accuracy by several percent and no comparison means anything.
+# Training stays at 60 points (kernel circuits grow with its square); test points cost one row each.
+cases:
+  - name: breast-cancer-real-data
+    input: {dataset: {kind: breast_cancer, n_samples: 260, features: 4, seed: 0}, test_fraction: 0.77}
+    seed: 0
+    expect: {max_abs_error: 0.06}
+  - name: moons-sampled
+    input: {dataset: {kind: moons, n_samples: 300, noise: 0.15, seed: 1}, test_fraction: 0.8}
+    params: {shots: 2000}
+    seed: 1
+    expect: {max_abs_error: 0.06}
+  - name: circles-exact-kernel
+    input: {dataset: {kind: circles, n_samples: 300, noise: 0.08, seed: 1}, test_fraction: 0.8}
+    params: {kernel_mode: exact}
+    seed: 2
+    expect: {max_abs_error: 0.06}
+  - name: xor-exact-kernel
+    input: {dataset: {kind: xor, n_samples: 300, noise: 0.1, seed: 2}, test_fraction: 0.8}
+    params: {kernel_mode: exact}
+    seed: 3
+    expect: {max_abs_error: 0.06}
+  - name: noise-model-breast-cancer
+    input_file: examples/breast_cancer.json
+    target: fake:fez@1.6
+    seed: 1
+    expect: {max_abs_error: 0.1, min_fidelity: 0.95}

@@ -1,0 +1,38 @@
+cases:
+  - name: li-water-binding
+    input_file: examples/li_h2o.json
+    params: {shots: 100000}
+    seed: 1
+    expect: {max_abs_error: 0.006}
+  - name: li-ammonia-binding
+    input:
+      label: Li+ binding to ammonia
+      basis: sto-3g
+      active_space: {n_electrons: 4, n_orbitals: 4}
+      systems:
+        complex:
+          xyz: "N 0 0 0.1165\nH 0 0.9377 -0.2718\nH 0.8121 -0.4689 -0.2718\nH -0.8121 -0.4689 -0.2718\nLi 0 0 2.1165"
+          charge: 1
+        host: {name: NH3}
+        ion: {name: "Li+", active_space: {n_electrons: 2, n_orbitals: 2}}
+    params: {shots: 100000}
+    seed: 2
+    expect: {max_abs_error: 0.006}
+  - name: h2-stretch-energy
+    input:
+      label: Energy cost of stretching H2 from 0.74 to 1.5 Angstrom
+      basis: sto-3g
+      active_space: {n_electrons: 2, n_orbitals: 2}
+      systems:
+        stretched: {xyz: "H 0 0 0\nH 0 0 1.5"}
+        equilibrium: {name: H2}
+    params: {shots: 100000}
+    seed: 3
+    expect: {max_abs_error: 0.004}
+  - name: noise-model-li-water
+    input_file: examples/li_h2o.json
+    target: fake:fez@1.6
+    params: {shots: 20000}
+    seed: 1
+    # binding energy of two systems: the error bar is the sum of both (about 3 mHa)
+    expect: {max_abs_error: 0.012, min_fidelity: 0.99, min_postselection: 0.9}

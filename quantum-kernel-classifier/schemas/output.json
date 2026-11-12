@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "test_accuracy",
+    "test_accuracy_ci95",
+    "baseline_test_accuracy",
+    "confusion_matrix",
+    "predictions",
+    "n_train",
+    "n_test"
+  ],
+  "properties": {
+    "test_accuracy": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "title": "Test accuracy",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "test_accuracy_ci95": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "x-ui": {
+          "format": "percent"
+        }
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "title": "95% interval",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "baseline_test_accuracy": {
+      "type": "number",
+      "title": "Best classical test accuracy",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "cv_accuracy": {
+      "type": "number",
+      "title": "Cross-validation accuracy",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "confusion_matrix": {
+      "type": "object",
+      "title": "Confusion matrix",
+      "properties": {
+        "tp": {
+          "title": "True positives"
+        },
+        "tn": {
+          "title": "True negatives"
+        },
+        "fp": {
+          "title": "False positives"
+        },
+        "fn": {
+          "title": "False negatives"
+        }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "n_train": {
+      "type": "integer",
+      "title": "Training points"
+    },
+    "n_test": {
+      "type": "integer",
+      "title": "Test points"
+    },
+    "n_features": {
+      "type": "integer",
+      "title": "Features"
+    },
+    "baseline_predictions": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "The classical baseline's prediction for each test point"
+    },
+    "paired_comparison": {
+      "type": "object",
+      "description": "Exact McNemar test on the test points where exactly one model is right",
+      "properties": {
+        "test": {
+          "type": "string",
+          "title": "Test"
+        },
+        "quantum_only_correct": {
+          "type": "integer",
+          "minimum": 0,
+          "title": "Right only with quantum"
+        },
+        "classical_only_correct": {
+          "type": "integer",
+          "minimum": 0,
+          "title": "Right only with classical"
+        },
+        "p_value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "title": "p-value"
+        }
+      },
+      "title": "Paired comparison with the best classical"
+    },
+    "kernel_check": {
+      "title": "Kernel check"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "title": "Nodes",
+      "description": "The things to split into two groups",
+      "type": "array", "minItems": 2, "maxItems": 24,
+      "items": {"type": "string", "minLength": 1, "maxLength": 32}
+    },
+    "edges": {
+      "title": "Connections",
+      "description": "Pairs of nodes and how strongly they are linked. Weight defaults to 1",
+      "type": "array", "minItems": 1,
+      "items": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"type": ["string", "number"]}},
+      "x-ui": {
+        "widget": "table",
+        "columns": [
+          {"title": "From", "type": "string", "options_from": "nodes"},
+          {"title": "To", "type": "string", "options_from": "nodes"},
+          {"title": "Weight", "type": "number", "optional": true, "placeholder": "1"}
+        ],
+        "preview": "graph"
+      }
+    }
+  }
+}

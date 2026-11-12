@@ -1,0 +1,64 @@
+schema_version: 1
+name: max-cut
+version: 1.0.1
+family: qubo_optimization
+summary: Split a weighted graph into two groups to maximize the total weight of edges between them (network partitioning, clustering, circuit layout)
+license: Apache-2.0
+tags: [graph, partitioning, qubo, qaoa, logistics]
+
+inputs:
+  schema: schemas/input.json
+  examples: [examples/ring_6.json]
+parameters:
+  - {name: layers, label: Circuit depth, type: int, default: 3, min: 1, max: 8, description: "More layers can find better answers but take longer to train"}
+  - {name: shots, label: Final shots, type: int, default: 4000, min: 100, max: 20000, description: Final sampling shots}
+  - {name: train_shots, label: Shots per training step, type: int, default: 1000, min: 100, max: 8000, description: Shots per optimizer step when training is sampled}
+  - {name: optimizer_iters, label: Optimiser iterations, type: int, default: 100, min: 5, max: 400, description: COBYLA iterations}
+  - {name: train_on, label: Train angles on, type: enum, default: sim, choices: [sim, backend], description: "sim trains noise-free and uses the device only to measure"}
+outputs:
+  schema: schemas/output.json
+
+# The class that implements the methods below: plain Qiskit, no SDK solver.
+entrypoint: src.workflow:MaxCut
+
+category: Networks and logistics
+objective: {label: Negative cut weight, unit: "", decimals: 3}
+metric: {kind: relative_gap, note: "100% means the quantum objective equals the best classical objective. It falls by the relative amount the quantum objective is worse."}
+methods:
+  - id: qaoa
+    role: quantum
+    title: QAOA (quantum approximate optimisation)
+    what: A short quantum circuit that alternates between favouring low-cost answers and mixing possibilities. Its angles are tuned on a simulator, then the final answers are measured.
+    strength: Samples good answers directly from a quantum state.
+    limit: On today's noisy chips only small circuits stay faithful.
+  - id: exhaustive-or-annealing
+    role: reference
+    title: Exhaustive search (annealing beyond 22 variables)
+    what: Tries every possible answer and keeps the best one, which is guaranteed optimal. Above 22 variables that is too slow, so it switches to simulated annealing.
+    strength: Provably the best answer whenever it can run exhaustively.
+    limit: Beyond 22 variables it is a heuristic with no guarantee.
+  - id: annealing
+    role: classical
+    title: Simulated annealing
+    what: Starts from a random answer and keeps trying small changes. Early on it sometimes accepts a worse answer to escape dead ends, then becomes stricter, like metal slowly cooling.
+    strength: Fast, scales to large problems, and usually lands close to the best answer.
+    limit: No guarantee that it finds the best answer.
+
+envelope:
+  max_qubits: 24
+  max_variables: 24
+  notes: "Up to 24 nodes per run"
+
+targets:
+  simulators: [cpu, gpu]
+  qpu: [ibm]
+  min_qubits_qpu: 4
+
+resources:
+  timeout_s: 1800
+  memory_mb: 1536
+  network: none
+
+runtime:
+  python: "3.12"
+  dependencies: requirements.lock

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "assignment",
+    "ones",
+    "objective"
+  ],
+  "properties": {
+    "assignment": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Assignment (variable to 0 or 1)"
+    },
+    "ones": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Variables set to 1"
+    },
+    "objective": {
+      "type": "number",
+      "title": "Objective value"
+    }
+  }
+}

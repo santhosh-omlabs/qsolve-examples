@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "selected_assets",
+    "weights",
+    "expected_return",
+    "risk",
+    "constraint_satisfied"
+  ],
+  "properties": {
+    "selected_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Selected assets"
+    },
+    "weights": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Weights",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "expected_return": {
+      "type": "number",
+      "title": "Expected return",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "risk": {
+      "type": "number",
+      "title": "Risk (volatility)",
+      "x-ui": {
+        "format": "percent"
+      }
+    },
+    "constraint_satisfied": {
+      "type": "boolean",
+      "title": "Constraint satisfied"
+    }
+  }
+}

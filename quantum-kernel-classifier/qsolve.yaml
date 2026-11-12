@@ -1,0 +1,74 @@
+schema_version: 1
+name: quantum-kernel-classifier
+version: 1.0.1
+family: quantum_ml
+summary: Binary classification with a quantum-kernel SVM, tuned and compared against a cross-validated classical RBF-SVM on a held-out test set
+license: Apache-2.0
+tags: [qml, classification, kernel, svm]
+
+inputs:
+  schema: schemas/input.json
+  examples: [examples/breast_cancer.json, examples/moons.json]
+parameters:
+  - {name: reps, label: Feature-map depth, type: int, default: 0, min: 0, max: 4, description: "Feature-map repetitions; 0 = auto-tune by cross-validation"}
+  - {name: bandwidth, label: Bandwidth, type: float, default: 0, min: 0, max: 4, description: "Feature scaling before encoding; 0 = auto-tune by cross-validation"}
+  - {name: shots, label: Shots per kernel entry, type: int, default: 4000, min: 100, max: 20000, description: "Shots per kernel entry (sampled mode); fewer than ~4000 lets shot noise cost accuracy"}
+  - {name: kernel_mode, label: Kernel evaluation, type: enum, default: sampled, choices: [sampled, exact], description: "sampled = measured on the chosen backend; exact = noise-free simulation of the kernel, spot-checked on the backend with 8 circuits"}
+outputs:
+  schema: schemas/output.json
+
+entrypoint: src.workflow:QuantumKernelClassifier
+
+category: Machine learning
+objective: {label: Test error rate, unit: "", decimals: 3}
+metric: {kind: error_rate, note: "Share of held-out test points classified correctly, with its 95% interval. Fewer test points mean a wider interval."}
+methods:
+  - id: quantum-kernel
+    role: quantum
+    title: Quantum-kernel SVM
+    what: Encodes each data point as a quantum state and measures how similar two points are; a support vector machine then learns from those similarities.
+    strength: Can separate patterns that are hard for simple classical similarity measures.
+    limit: Every pair of points needs its own circuit, so it grows quickly with data size.
+  - id: rbf-svm
+    role: reference
+    title: Support vector machine (RBF kernel)
+    what: Draws a smooth boundary between the two classes using a similarity measure between points, tuned by cross-validation.
+    strength: A strong, standard choice for small and medium data.
+    limit: Needs tuning; slows down on very large data.
+  - id: logistic-regression
+    role: classical
+    title: Logistic regression
+    what: Fits a straight-line boundary between the two classes.
+    strength: Simple, fast and easy to interpret.
+    limit: Cannot capture curved boundaries.
+  - id: random-forest
+    role: classical
+    title: Random forest
+    what: Averages the votes of many decision trees, each trained on a different slice of the data.
+    strength: Robust, little tuning needed.
+    limit: Less sharp than boosting on clean data.
+  - id: gradient-boosting
+    role: classical
+    title: Gradient boosting
+    what: Builds trees one after another, each correcting the mistakes of the last.
+    strength: Often the most accurate general-purpose classifier on tabular data.
+    limit: Can overfit small data sets.
+
+envelope:
+  max_qubits: 8
+  max_variables: 8
+  notes: "Up to 8 features (one qubit each) and 60 training points per run; test sets up to 340 points"
+
+targets:
+  simulators: [cpu, gpu]
+  qpu: [ibm]
+  min_qubits_qpu: 2
+
+resources:
+  timeout_s: 3600
+  memory_mb: 1536
+  network: none
+
+runtime:
+  python: "3.12"
+  dependencies: requirements.lock

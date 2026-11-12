@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["systems", "basis"],
+  "definitions": {
+    "active_space": {
+      "title": "Active space",
+      "description": "Electrons and orbitals treated on the quantum computer. Qubits = 2 × orbitals",
+      "type": "object", "additionalProperties": false, "required": ["n_electrons", "n_orbitals"],
+      "properties": {
+        "n_electrons": {"title": "Electrons", "type": "integer", "minimum": 0},
+        "n_orbitals": {"title": "Orbitals", "type": "integer", "minimum": 1, "maximum": 6}
+      }
+    }
+  },
+  "properties": {
+    "label": {"title": "Name this calculation", "type": "string", "maxLength": 80},
+    "systems": {
+      "title": "Systems",
+      "description": "Each molecule or complex whose energy enters the result",
+      "type": "object", "minProperties": 1, "maxProperties": 6,
+      "x-ui": {"key_title": "System name", "key_placeholder": "complex"},
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "anyOf": [
+          {"title": "Known molecule", "required": ["name"]},
+          {"title": "XYZ coordinates", "required": ["xyz"]}
+        ],
+        "properties": {
+          "name": {
+            "title": "Molecule", "type": "string",
+            "examples": ["H2", "LiH", "H2O", "NH3", "CH4", "N2", "CO", "HF", "BeH2", "Li+"]
+          },
+          "xyz": {
+            "title": "Geometry", "description": "One atom per line: symbol x y z, in Ångström",
+            "type": "string", "maxLength": 4000, "x-ui": {"widget": "code"}
+          },
+          "charge": {"title": "Charge", "type": "integer", "minimum": -4, "maximum": 4, "default": 0},
+          "active_space": {"$ref": "#/definitions/active_space"}
+        }
+      }
+    },
+    "terms": {
+      "title": "How to combine the energies",
+      "description": "Weight per system. Leave empty for a binding energy: the first system minus the rest",
+      "type": "object", "additionalProperties": {"type": "number"},
+      "x-ui": {"keys_from": "systems", "key_title": "System", "value_title": "Weight"}
+    },
+    "basis": {
+      "title": "Basis set",
+      "description": "Larger bases are more accurate and need more qubits",
+      "type": "string", "enum": ["sto-3g", "sto-6g", "3-21g", "6-31g"]
+    },
+    "active_space": {
+      "$ref": "#/definitions/active_space",
+      "description": "Default for every system that does not set its own"
+    }
+  }
+}

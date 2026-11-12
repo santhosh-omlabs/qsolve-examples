@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "anyOf": [
+    {"title": "Known molecule", "required": ["name"]},
+    {"title": "XYZ coordinates", "required": ["xyz"]},
+    {"title": "Atom list", "required": ["atoms"]}
+  ],
+  "properties": {
+    "name": {
+      "title": "Molecule",
+      "description": "A built-in molecule at its reference geometry",
+      "type": "string",
+      "examples": ["H2", "LiH", "H2O", "NH3", "CH4", "N2", "CO", "HF", "BeH2", "Li+"]
+    },
+    "xyz": {
+      "title": "Geometry",
+      "description": "One atom per line: symbol x y z, in Ångström",
+      "type": "string", "maxLength": 4000,
+      "x-ui": {"widget": "code", "placeholder": "O  0.000  0.000  0.117\nH  0.000  0.757 -0.469\nH  0.000 -0.757 -0.469"}
+    },
+    "atoms": {
+      "title": "Atoms",
+      "type": "array", "minItems": 1, "maxItems": 40,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["symbol", "xyz"],
+        "properties": {
+          "symbol": {"title": "Element", "type": "string"},
+          "xyz": {"title": "Position (Å)", "type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}
+        }
+      }
+    },
+    "basis": {
+      "title": "Accuracy level",
+      "description": "How detailed the electron model is. sto-3g is the quickest and works for most first looks; bigger choices are more accurate and need more qubits",
+      "type": "string", "enum": ["sto-3g", "sto-6g", "3-21g", "6-31g"], "default": "sto-3g",
+      "x-ui": {"option_labels": {"sto-3g": "Quick (sto-3g)", "sto-6g": "Standard (sto-6g)", "3-21g": "Detailed (3-21g)", "6-31g": "High (6-31g)"}}
+    },
+    "charge": {"title": "Charge", "description": "Total charge of the molecule: 0 for neutral, +1 for a cation", "type": "integer", "minimum": -4, "maximum": 4, "default": 0},
+    "active_space": {
+      "title": "Part computed on the quantum computer",
+      "description": "Which electrons and orbitals the quantum computer handles (the rest is solved classically). Each orbital uses 2 qubits. Leave as the example unless you know your molecule",
+      "x-ui": {"advanced": true},
+      "type": "object", "additionalProperties": false, "required": ["n_electrons", "n_orbitals"],
+      "properties": {
+        "n_electrons": {"title": "Electrons", "type": "integer", "minimum": 0},
+        "n_orbitals": {"title": "Orbitals", "type": "integer", "minimum": 1, "maximum": 6}
+      }
+    }
+  }
+}

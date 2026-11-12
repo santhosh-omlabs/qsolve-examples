@@ -1,0 +1,10 @@
+{
+  "label": "Li+ binding to water",
+  "basis": "sto-3g",
+  "active_space": {"n_electrons": 4, "n_orbitals": 4},
+  "systems": {
+    "complex": {"xyz": "O 0 0 0.1173\nH 0 0.7572 -0.4692\nH 0 -0.7572 -0.4692\nLi 0 0 1.97", "charge": 1},
+    "host": {"name": "H2O"},
+    "ion": {"name": "Li+", "active_space": {"n_electrons": 2, "n_orbitals": 2}}
+  }
+}

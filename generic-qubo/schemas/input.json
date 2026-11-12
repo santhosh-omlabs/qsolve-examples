@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["Q"],
+  "additionalProperties": false,
+  "properties": {
+    "labels": {
+      "title": "Variable names",
+      "description": "Optional. Names the rows and columns of Q",
+      "type": "array", "items": {"type": "string"}
+    },
+    "Q": {
+      "title": "Q matrix",
+      "description": "Square matrix. The solver minimises x'Qx + offset over binary x. Paste from a spreadsheet",
+      "type": "array", "minItems": 2, "maxItems": 24,
+      "items": {"type": "array", "items": {"type": "number"}},
+      "x-ui": {"widget": "matrix", "labels_from": "labels", "square": true}
+    },
+    "cardinality": {
+      "title": "Exactly this many ones",
+      "description": "Optional constraint on how many variables equal 1",
+      "type": "integer", "minimum": 0
+    },
+    "offset": {"title": "Constant offset", "type": "number", "default": 0, "x-ui": {"advanced": true}}
+  }
+}

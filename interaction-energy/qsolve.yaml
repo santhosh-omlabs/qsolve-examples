@@ -1,0 +1,74 @@
+schema_version: 1
+name: interaction-energy
+version: 1.0.1
+family: electronic_structure
+summary: Binding, solvation, adsorption or reaction energy for any set of species - a signed combination of VQE energies (for example Li+ with a solvent molecule for battery electrolytes)
+license: Apache-2.0
+tags: [chemistry, vqe, battery, electrolyte, cathode, binding-energy]
+
+inputs:
+  schema: schemas/input.json
+  examples: [examples/li_h2o.json]
+parameters:
+  - {name: ansatz, label: Ansatz, type: enum, default: uccsd, choices: [uccsd, hea], description: "uccsd is chemically exact for small spaces; hea is experimental"}
+  - {name: shots, label: Shots per circuit, type: int, default: 20000, min: 100, max: 1000000, description: Shots per measurement circuit}
+  - {name: optimizer_iters, label: Optimiser iterations, type: int, default: 200, min: 5, max: 2000, description: Optimizer iterations (noise-free training)}
+outputs:
+  schema: schemas/output.json
+
+# The class that implements the methods below. It is plain Qiskit.
+entrypoint: src.workflow:InteractionEnergy
+
+category: Chemistry and materials
+objective: {label: Interaction energy, unit: "Ha", decimals: 6}
+metric: {kind: relative_error, tolerance_abs: 0.0016, note: "1 minus the energy difference to the exact active-space answer, as a fraction of that answer. Total energies are large numbers, so read the error in mHa too: chemical accuracy is 1.6 mHa."}
+methods:
+  - id: vqe
+    role: quantum
+    title: VQE (variational quantum eigensolver)
+    what: Prepares a trial quantum state of the electrons and adjusts it until its measured energy is as low as possible.
+    strength: Computes molecular energies without storing the full wavefunction.
+    limit: Needs many measurements, and noise limits the size of molecule.
+  - id: casci
+    role: reference
+    title: Exact solution in the active space (CASCI)
+    what: Solves the electron equation exactly, but only for a chosen set of orbitals (the active space), the same set the quantum computer works on.
+    strength: Exact for that space, so it is the fair target for the quantum result.
+    limit: Ignores the orbitals outside the active space.
+  - id: hartree-fock
+    role: classical
+    title: Hartree-Fock
+    what: Treats every electron as moving in the average field of all the others.
+    strength: Cheap, and the starting point of almost all chemistry methods.
+    limit: Misses electron correlation, a small share of the energy that decides most chemistry.
+  - id: mp2
+    role: classical
+    title: Second-order perturbation theory (MP2)
+    what: Starts from Hartree-Fock and adds a first correction for how electrons avoid each other.
+    strength: A quick, widely used improvement over Hartree-Fock.
+    limit: Can be unreliable for stretched bonds and metals.
+  - id: ccsd-t
+    role: classical
+    title: Coupled cluster, CCSD(T)
+    what: Builds the wavefunction from single and double electron excitations, plus an estimate of triple ones.
+    strength: The gold standard of everyday quantum chemistry.
+    limit: Cost grows steeply with molecule size.
+
+envelope:
+  max_qubits: 12
+  max_variables: 12
+  notes: "Each system uses at most 6 active spatial orbitals (12 qubits); closed-shell systems only"
+
+targets:
+  simulators: [cpu, gpu]
+  qpu: [ibm]
+  min_qubits_qpu: 4
+
+resources:
+  timeout_s: 7200
+  memory_mb: 2048
+  network: none
+
+runtime:
+  python: "3.12"
+  dependencies: requirements.lock

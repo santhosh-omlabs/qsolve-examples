@@ -1,0 +1,21 @@
+# The objective is the sum of the solvents' binding energies (Hartree); tolerances are about
+# 3 sigma of its shot noise (each binding energy carries ~0.5 kcal/mol at 50,000 shots).
+cases:
+  - name: carbonates-vs-ethers
+    input_file: examples/carbonates_vs_ethers.json
+    seed: 1
+    expect: {max_abs_error: 0.008}
+  - name: quick-preview-sto3g
+    input_file: examples/quick_preview.json
+    seed: 2
+    expect: {max_abs_error: 0.005}
+  - name: nitrile-and-water
+    input: {solvents: [ACN, water], basis: 6-31g*}
+    seed: 3
+    expect: {max_abs_error: 0.004}
+  - name: noise-model-quick-preview
+    input_file: examples/quick_preview.json
+    target: fake:fez@1.6
+    params: {shots: 20000}
+    seed: 1
+    expect: {max_abs_error: 0.02, min_fidelity: 0.97, min_postselection: 0.9}

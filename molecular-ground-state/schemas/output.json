@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "energy_hartree",
+    "energy_stderr_hartree",
+    "reference_active_space_exact_hartree",
+    "hartree_fock_hartree",
+    "error_vs_exact_mha",
+    "within_chemical_accuracy",
+    "systems"
+  ],
+  "properties": {
+    "energy_hartree": {
+      "type": "number",
+      "title": "Quantum energy",
+      "x-ui": {
+        "unit": "Ha"
+      }
+    },
+    "energy_stderr_hartree": {
+      "type": "number",
+      "title": "Error bar (1 sigma)",
+      "x-ui": {
+        "unit": "Ha"
+      }
+    },
+    "reference_active_space_exact_hartree": {
+      "type": "number",
+      "title": "Exact, same active space",
+      "x-ui": {
+        "unit": "Ha"
+      }
+    },
+    "hartree_fock_hartree": {
+      "type": "number",
+      "title": "Hartree-Fock",
+      "x-ui": {
+        "unit": "Ha"
+      }
+    },
+    "ccsd_t_full_space_hartree": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "title": "CCSD(T), full space",
+      "x-ui": {
+        "unit": "Ha"
+      }
+    },
+    "error_vs_exact_mha": {
+      "type": "number",
+      "title": "Error vs exact",
+      "x-ui": {
+        "unit": "mHa"
+      }
+    },
+    "within_chemical_accuracy": {
+      "type": "boolean",
+      "title": "Within chemical accuracy"
+    },
+    "systems": {
+      "type": "object",
+      "title": "Systems computed",
+      "additionalProperties": {
+        "properties": {
+          "energy_hartree": {
+            "title": "Quantum energy",
+            "x-ui": {
+              "unit": "Ha"
+            }
+          },
+          "stderr_hartree": {
+            "title": "Error bar",
+            "x-ui": {
+              "unit": "Ha"
+            }
+          },
+          "hartree_fock": {
+            "title": "Hartree-Fock",
+            "x-ui": {
+              "unit": "Ha"
+            }
+          },
+          "exact_active_space": {
+            "title": "Exact, same space",
+            "x-ui": {
+              "unit": "Ha"
+            }
+          },
+          "qubits": {
+            "title": "Qubits"
+          },
+          "coefficient": {
+            "title": "Weight in the result"
+          }
+        }
+      }
+    },
+    "label": {
+      "title": "Calculation"
+    },
+    "energy_kcal_mol": {
+      "title": "Quantum energy",
+      "x-ui": {
+        "unit": "kcal/mol"
+      }
+    },
+    "energy_kj_mol": {
+      "title": "Quantum energy",
+      "x-ui": {
+        "unit": "kJ/mol"
+      }
+    },
+    "energy_ev": {
+      "title": "Quantum energy",
+      "x-ui": {
+        "unit": "eV"
+      }
+    },
+    "noise_free_error_vs_exact_mha": {
+      "title": "Error vs exact, noise-free circuit",
+      "x-ui": {
+        "unit": "mHa"
+      }
+    },
+    "correlation_recovered_pct": {
+      "title": "Correlation energy recovered",
+      "x-ui": {
+        "unit": "%"
+      }
+    }
+  }
+}

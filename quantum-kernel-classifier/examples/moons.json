@@ -1,0 +1,1 @@
+{"dataset": {"kind": "moons", "n_samples": 36, "noise": 0.1, "seed": 0}, "test_fraction": 0.33}

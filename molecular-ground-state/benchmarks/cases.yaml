@@ -1,0 +1,30 @@
+cases:
+  - name: h2-sto3g
+    input_file: examples/h2.json
+    params: {shots: 100000}
+    seed: 1
+    expect: {max_abs_error: 0.003}
+  - name: lih-2e3o
+    input: {name: LiH, basis: sto-3g, active_space: {n_electrons: 2, n_orbitals: 3}}
+    params: {shots: 100000}
+    seed: 2
+    expect: {max_abs_error: 0.003}
+  - name: h2o-4e4o
+    input_file: examples/h2o.json
+    params: {shots: 100000}
+    seed: 3
+    expect: {max_abs_error: 0.004}
+  - name: custom-xyz-nh3
+    input:
+      xyz: "N 0 0 0.1165\nH 0 0.9377 -0.2718\nH 0.8121 -0.4689 -0.2718\nH -0.8121 -0.4689 -0.2718"
+      basis: sto-3g
+      active_space: {n_electrons: 4, n_orbitals: 3}
+    params: {shots: 100000}
+    seed: 4
+    expect: {max_abs_error: 0.004}
+  - name: noise-model-h2
+    input_file: examples/h2.json
+    target: fake:fez@1.6
+    params: {shots: 20000}
+    seed: 1
+    expect: {max_abs_error: 0.005, min_fidelity: 0.99, min_postselection: 0.9}
