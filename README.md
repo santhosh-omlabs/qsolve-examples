@@ -33,7 +33,7 @@ chemistry and kernel workflows.
 
 ## Run one
 
-Install the SDK (`pip install qsolve-sdk[ibm]`) plus `scipy scikit-learn qiskit-aer`, and `pyscf`
+Install the SDK (`pip install "qsolve-sdk[ibm]"`) plus `scikit-learn`, and `pyscf`
 for the chemistry workflows (Linux, macOS or WSL). Then:
 
 ```bash
