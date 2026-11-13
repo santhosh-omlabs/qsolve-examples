@@ -2,13 +2,35 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
-    "ion",
-    "basis",
-    "ranking",
-    "strongest_binder",
-    "ranking_matches_exact",
-    "max_abs_error_kcal_mol",
-    "within_chemical_accuracy"
+    "ion"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "ion",
+        "basis",
+        "ranking",
+        "strongest_binder",
+        "ranking_matches_exact",
+        "max_abs_error_kcal_mol",
+        "within_chemical_accuracy"
+      ]
+    },
+    {
+      "required": [
+        "label",
+        "energy_hartree",
+        "energy_kcal_mol",
+        "energy_kj_mol",
+        "energy_ev",
+        "ion"
+      ],
+      "not": {
+        "required": [
+          "ranking"
+        ]
+      }
+    }
   ],
   "properties": {
     "label": {

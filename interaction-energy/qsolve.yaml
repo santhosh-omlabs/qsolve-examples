@@ -1,6 +1,6 @@
 schema_version: 1
 name: interaction-energy
-version: 1.0.2
+version: 1.0.3
 family: electronic_structure
 summary: Binding, solvation, adsorption or reaction energy for any set of species - a signed combination of VQE energies (for example Li+ with a solvent molecule for battery electrolytes)
 license: Apache-2.0
@@ -11,7 +11,7 @@ inputs:
   examples: [examples/li_h2o.json]
 parameters:
   - {name: ansatz, label: Ansatz, type: enum, default: uccsd, choices: [uccsd, hea], description: "uccsd is chemically exact for small spaces; hea is experimental"}
-  - {name: shots, label: Shots per circuit, type: int, default: 20000, min: 100, max: 1000000, description: Shots per measurement circuit}
+  - {name: shots, label: Shots per circuit, type: int, default: 20000, min: 100, max: 100000, description: Shots per measurement circuit}
   - {name: optimizer_iters, label: Optimiser iterations, type: int, default: 200, min: 5, max: 2000, description: Optimizer iterations (noise-free training)}
 outputs:
   schema: schemas/output.json

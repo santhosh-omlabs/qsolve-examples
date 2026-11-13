@@ -1,6 +1,6 @@
 schema_version: 1
 name: molecular-ground-state
-version: 1.0.2
+version: 1.0.3
 family: electronic_structure
 summary: Ground-state energy of any closed-shell molecule or ion with VQE (UCCSD) in a chosen active space, compared with Hartree-Fock, exact active-space and CCSD(T) references
 license: Apache-2.0
@@ -11,7 +11,7 @@ inputs:
   examples: [examples/h2.json, examples/h2o.json]
 parameters:
   - {name: ansatz, label: Ansatz, type: enum, default: uccsd, choices: [uccsd, hea], description: "uccsd is chemically exact for small spaces; hea is experimental and may miss the ground state"}
-  - {name: shots, label: Shots per circuit, type: int, default: 20000, min: 100, max: 1000000, description: Shots per measurement circuit}
+  - {name: shots, label: Shots per circuit, type: int, default: 20000, min: 100, max: 100000, description: Shots per measurement circuit}
   - {name: optimizer_iters, label: Optimiser iterations, type: int, default: 200, min: 5, max: 2000, description: Optimizer iterations (noise-free training)}
 outputs:
   schema: schemas/output.json

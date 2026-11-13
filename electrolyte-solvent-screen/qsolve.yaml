@@ -1,6 +1,6 @@
 schema_version: 1
 name: electrolyte-solvent-screen
-version: 1.0.2
+version: 1.0.3
 family: electronic_structure
 summary: Rank battery-electrolyte solvents by how strongly they bind Li+ (EC, FEC, DMC, DME, THF, acetonitrile, water or your own), with each binding energy computed by VQE and checked against exact and MP2 references
 license: Apache-2.0
@@ -10,7 +10,7 @@ inputs:
   schema: schemas/input.json
   examples: [examples/carbonates_vs_ethers.json, examples/quick_preview.json]
 parameters:
-  - {name: shots, label: Shots per circuit, type: int, default: 50000, min: 1000, max: 1000000, description: "Shots per measurement circuit; error bars shrink as 1/sqrt(shots)"}
+  - {name: shots, label: Shots per circuit, type: int, default: 50000, min: 1000, max: 100000, description: "Shots per measurement circuit; error bars shrink as 1/sqrt(shots)"}
   - {name: optimizer_iters, label: Optimiser iterations, type: int, default: 200, min: 5, max: 2000, description: Optimizer iterations (noise-free training)}
   - {name: ansatz, label: Ansatz, type: enum, default: uccsd, choices: [uccsd, hea], description: "uccsd is chemically exact for these active spaces; hea is experimental"}
 outputs:
