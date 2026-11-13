@@ -24,7 +24,7 @@ cases:
   - name: noise-model-breast-cancer
     input_file: examples/breast_cancer.json
     target: fake:fez@1.6
-    seed: 1
+    seed: 2
     expect: {max_abs_error: 0.1, min_fidelity: 0.95}
 
 # Real-device cases. Never run by `qsolve test` or by validation: the platform runs them on an IBM
